@@ -1,9 +1,5 @@
-import sys
 from kidneyClassifier.logger import logging
-from kidneyClassifier.exception import KidneyException
+from kidneyClassifier.pipeline.training_pipeline import TrainingPipeline
 
-
-try:
-    a = 12/0
-except ZeroDivisionError as e:
-    raise KidneyException(e , sys)
+train_pipeline = TrainingPipeline()
+train_pipeline.run_training_pipeline()
