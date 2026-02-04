@@ -1,0 +1,29 @@
+stages:
+  data_ingestion:
+    cmd: python kidneyClassifier/pipeline/stage_01_data_ingestion.py
+    deps:
+      - kidneyClassifier/pipeline/stage_01_data_ingestion.py
+      - kidneyClassifier/components/data_ingestion.py
+      - config/config.yaml
+    outs:
+      - artifacts/data_ingestion/train:
+          cache: false
+      - artifacts/data_ingestion/test:
+          cache: false
+      - artifacts/data_ingestion/artifact.json:
+          cache: false
+
+  prepare_base_model:
+    cmd: python kidneyClassifier/pipeline/stage_02_prepare_base_model.py
+    deps:
+      - kidneyClassifier/pipeline/stage_02_prepare_base_model.py
+      - kidneyClassifier/components/prepare_base_model.py
+      - config/config.yaml
+      - artifacts/data_ingestion/artifact.json
+    outs:
+      - artifacts/prepare_base_model/base_model:
+          cache: false
+      - artifacts/prepare_base_model/updated_model:
+          cache: false
+      - artifacts/prepare_base_model/artifact.json:
+          cache: false

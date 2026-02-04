@@ -1,0 +1,71 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python kidneyClassifier/pipeline/stage_01_data_ingestion.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: f2dea42df808b9689a6500489518f0b3
+      size: 796
+    - path: kidneyClassifier/components/data_ingestion.py
+      hash: md5
+      md5: e5b14bc51b337496f43badf7e44c3281
+      size: 10642
+    - path: kidneyClassifier/pipeline/stage_01_data_ingestion.py
+      hash: md5
+      md5: 754e25e38356d7b72306bb9781fdb66e
+      size: 1781
+    outs:
+    - path: artifacts/data_ingestion/artifact.json
+      hash: md5
+      md5: c712d877287f86c540c2d5bd25a7dffe
+      size: 364
+    - path: artifacts/data_ingestion/test
+      hash: md5
+      md5: 8e2f98dbbc1ffcdf9e56780bbe723076.dir
+      size: 8372424
+      nfiles: 69
+    - path: artifacts/data_ingestion/train
+      hash: md5
+      md5: a70efed41c5e9455c87afb2f52e84c5c.dir
+      size: 41108838
+      nfiles: 325
+    - path: artifacts/data_ingestion/validation
+      hash: md5
+      md5: 77d12844dc5671938e89a19de638aff3.dir
+      size: 9455119
+      nfiles: 71
+  prepare_base_model:
+    cmd: python kidneyClassifier/pipeline/stage_02_prepare_base_model.py
+    deps:
+    - path: artifacts/data_ingestion/artifact.json
+      hash: md5
+      md5: c712d877287f86c540c2d5bd25a7dffe
+      size: 364
+    - path: config/config.yaml
+      hash: md5
+      md5: f2dea42df808b9689a6500489518f0b3
+      size: 796
+    - path: kidneyClassifier/components/prepare_base_model.py
+      hash: md5
+      md5: d3c578e53d1a2d914ec2619666de256f
+      size: 11797
+    - path: kidneyClassifier/pipeline/stage_02_prepare_base_model.py
+      hash: md5
+      md5: 8ae71b69207e6f526dacfdb817179bd2
+      size: 2085
+    outs:
+    - path: artifacts/prepare_base_model/artifact.json
+      hash: md5
+      md5: b1bf6e1158054f18be6889761799a4b0
+      size: 308
+    - path: artifacts/prepare_base_model/base_model
+      hash: md5
+      md5: 2c6e48b414477606649b0e65e63b4929.dir
+      size: 553441845
+      nfiles: 1
+    - path: artifacts/prepare_base_model/updated_model
+      hash: md5
+      md5: 498d378a4d288aabdb0c39ca93f4958c.dir
+      size: 537089270
+      nfiles: 2

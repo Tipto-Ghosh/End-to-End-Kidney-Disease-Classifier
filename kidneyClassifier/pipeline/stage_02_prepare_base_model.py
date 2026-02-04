@@ -1,5 +1,6 @@
 import os 
 import sys 
+from pathlib import Path
 from kidneyClassifier.logger import logging
 from kidneyClassifier.exception import KidneyException
 from kidneyClassifier.entity.config_entity import PrepareBaseModelConfig
@@ -10,7 +11,7 @@ from kidneyClassifier.utils.common import read_yaml_file
 
 
 STAGE_NAME = "Prepare Base Model Stage"
-
+ARTIFACT_FILE = "artifacts/prepare_base_model/artifact.json"
 
 class PrepareBaseModelTrainingPipeline:
     def __init__(self):
@@ -20,18 +21,19 @@ class PrepareBaseModelTrainingPipeline:
     def main(self) -> PrepareBaseModelArtifact:
         """
         Execute the prepare base model pipeline stage
-        
-        Returns:
-            PrepareBaseModelArtifact: Artifact containing paths to base and updated models
         """
         try:
             logging.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
             
             prepare_base_model_obj = PrepareBaseModel(
-                config=self.config_contents,
-                prepare_base_model_config=self.prepare_base_model_config
+                config = self.config_contents,
+                prepare_base_model_config = self.prepare_base_model_config
             )
             prepare_base_model_artifact = prepare_base_model_obj.initiate_base_model()
+            
+            # Save artifact metadata
+            prepare_base_model_artifact.save(ARTIFACT_FILE)
+            logging.info(f"Artifact metadata saved to: {ARTIFACT_FILE}")
             
             logging.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
             logging.info(f"Prepare Base Model artifact: {prepare_base_model_artifact}")
@@ -45,10 +47,8 @@ class PrepareBaseModelTrainingPipeline:
 
 if __name__ == '__main__':
     try:
-        logging.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
         obj = PrepareBaseModelTrainingPipeline()
         artifact = obj.main()
-        logging.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
     except Exception as e:
         logging.exception(e)
         raise e
